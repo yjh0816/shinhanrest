@@ -40,8 +40,12 @@ class ProductDetailView(APIView):
 
         dirty = False
         for field, value in request.data.items():
-            dirty = dirty or value != getattr(product, field)
+            if field not in [f.name for f in product._meta.get_fields()]:
+                continue
+            
+            dirty = dirty or (value != getattr(product, field))
             setattr(product, field, value) # object, name of field var, value
+
         if dirty:
             product.save() # save is high cost, so use dirty
 
