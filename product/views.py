@@ -20,8 +20,23 @@ class ProductListView(APIView):
 
     def get(self, request, *args, **kwargs):
         ret = []
-
-        products = Product.objects.all().order_by('id')
+        products = Product.objects.all() 
+   
+        if 'price' in request.query_params:
+            price = request.query_params['price']
+            products = products.filter(price__lte=price)
+        if 'name' in request.query_params:
+            name = request.query_params['name']
+            products = products.filter(name__contains=name)
+        '''
+        - gte: greater than and equal
+        - gt: greater then
+        - lte: less than and equl
+        - lt: less than
+        - name: ‘’
+        - name__contains: ‘’
+        '''
+        products = products.order_by('id')
 
         for product in products:
             temp = {
@@ -42,7 +57,7 @@ class ProductDetailView(APIView):
         for field, value in request.data.items():
             if field not in [f.name for f in product._meta.get_fields()]:
                 continue
-            
+
             dirty = dirty or (value != getattr(product, field))
             setattr(product, field, value) # object, name of field var, value
 
