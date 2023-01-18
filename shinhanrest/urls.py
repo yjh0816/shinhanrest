@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/product',include('product.urls')),
+    # api/product로 시작하는 모든 주소는 product.urls로 보내면 된다
 ]
