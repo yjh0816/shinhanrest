@@ -35,6 +35,18 @@ class ProductListView(APIView):
         return Response(ret)
 
 class ProductDetailView(APIView):   
+    def put(self, request, pk, *args, **kwargs):
+        product = Product.objects.get(pk=pk)
+
+        dirty = False
+        for field, value in request.data.items():
+            dirty = dirty or value != getattr(product, field)
+            setattr(product, field, value) # object, name of field var, value
+        if dirty:
+            product.save() # save is high cost, so use dirty
+
+        return Response(status=status.HTTP_200_OK)
+
     def delete(self, request, pk, *args, **kwargs):
         if Product.objects.filter(pk=pk).exists():
             product = Product.objects.get(pk=pk)
@@ -42,8 +54,6 @@ class ProductDetailView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
         
     def get(self, request, pk, *args, **kwargs):
-        # 1. get 하기 전에 existx()로 확인하고 가져오기
-        # 2. get 할 때 예외처리 하기
         try:
             product = Product.objects.get(pk=pk)
         except Product.DoesNotExist:
