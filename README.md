@@ -12,8 +12,11 @@ $ python manage.py runserver
 ```
 
 ## Features
-- Product read API
-- Product write API
+- Get product list
+- Get product detail
+- Delete product
+- Add product
+- Update product
 
 ## References
 1. [FastCampus Lecture Github](https://github.com/Alghost/2023-shinhan)
