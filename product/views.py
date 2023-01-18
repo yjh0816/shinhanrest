@@ -34,14 +34,24 @@ class ProductListView(APIView):
         
         return Response(ret)
 
-class ProductDetailView(APIView):
-
-    def get(self, request, *args, **kwargs):
-        product = Product.objects.get(pk=request.path_info.split('/')[-1])
+class ProductDetailView(APIView):   
+    def delete(self, request, pk, *args, **kwargs):
+        if Product.objects.filter(pk=pk).exists():
+            product = Product.objects.get(pk=pk)
+            product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
+    def get(self, request, pk, *args, **kwargs):
+        # 1. get 하기 전에 existx()로 확인하고 가져오기
+        # 2. get 할 때 예외처리 하기
+        try:
+            product = Product.objects.get(pk=pk)
+        except Product.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         ret = {
             "name": product.name,
             "price": product.price,
             "product_type": product.product_type,
         }
-        return Response(ret)
+        return Response(ret, status=status.HTTP_200_OK)
