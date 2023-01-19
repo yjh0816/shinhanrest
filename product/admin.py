@@ -5,7 +5,8 @@ from .models import Product, Comment
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'price')
+    list_filter = ['product_type']
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):

@@ -1,7 +1,22 @@
 from rest_framework import generics, mixins
-from .models import Product
-from .serializers import ProductSerializer
+from .models import Product, Comment
+from .serializers import ProductSerializer, CommentSerializer
 from .paginations import ProductLargePagination
+
+class ProductCommentListView(
+    mixins.ListModelMixin, 
+    generics.GenericAPIView,
+):
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        product_id = self.kwargs.get('product_id')
+        if product_id:
+            return Comment.objects.filter(product_id=product_id).order_by('-id')
+        return Comment.objects.none()
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, args, kwargs)
 
 class ProductListView(
     mixins.ListModelMixin, 
