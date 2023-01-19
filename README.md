@@ -5,6 +5,7 @@ This is djangoframework practice that use Django REST Framework with ShinhanInve
 ```shell
 $ pip install django
 $ pip install djangorestframework
+$ pip install djangorestframework-simplejwt
 ```
 ## How to start
 ```shell
