@@ -1,6 +1,7 @@
 from rest_framework import generics, mixins
 from .models import Product
 from .serializers import ProductSerializer
+from .paginations import ProductLargePagination
 
 class ProductListView(
     mixins.ListModelMixin, 
@@ -8,18 +9,28 @@ class ProductListView(
     generics.GenericAPIView,
 ):
     serializer_class = ProductSerializer
+    pagination_class = ProductLargePagination
 
     def get_queryset(self):
         products = Product.objects.all()
         
-        name = self.request.query_params['name']
-        price = self.request.query_params['price']
+        # name = self.request.query_params['name']
+        # price = self.request.query_params['price']
 
-        if name:
+        # if name:
+        #     products = products.filter(name__contains=name)
+        # if price:
+        #     products = products.filter(price__lte=price)
+
+        ## This code is more safety
+
+        if 'name' in self.request.query_params:
+            name = self.request.query_params['name']
             products = products.filter(name__contains=name)
-        if price:
-            products = products.filter(price__lte=price)
-        
+        if 'price' in self.request.query_params:
+            price = self.request.query_params['price']
+            products = products.filter(price__lte=price)   
+
         return products.order_by('id')
 
     def get(self, request, *args, **kwargs):
