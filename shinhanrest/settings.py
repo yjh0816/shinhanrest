@@ -156,3 +156,6 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT", ),
 }
 AUTH_USER_MODEL = "member.Member"
+AUTHENTICATION_BACKENDS = {
+    "member.auth.MemberAuth"
+}
