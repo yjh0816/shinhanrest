@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Comment
+from .models import Product, Comment, Like
 
 # Register your models here.
 
@@ -10,4 +10,8 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Like)
+class LikeAdmin(admin.ModelAdmin):
     pass

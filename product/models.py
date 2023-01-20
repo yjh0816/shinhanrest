@@ -34,3 +34,13 @@ class Comment(models.Model):
         db_table = 'shinhan_product_comment'
         verbose_name = '상품 댓글'
         verbose_name_plural = '상품 댓글'
+
+class Like(models.Model):
+    member = models.ForeignKey('member.Member', on_delete=models.CASCADE, verbose_name='회원')
+    product = models.ForeignKey('product.Product', on_delete=models.CASCADE, verbose_name='상품')
+
+    class Meta:
+        db_table = 'shinhan_product_like'
+        verbose_name = '상품 좋아요'
+        verbose_name_plural = '상품 좋아요'
+

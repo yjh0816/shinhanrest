@@ -1,11 +1,18 @@
-from rest_framework import generics, mixins
-from .models import Product, Comment
+from rest_framework import (
+    generics, 
+    mixins, 
+    status,
+)
+from .models import Product, Comment, Like
 from .serializers import (
     ProductSerializer, 
     CommentSerializer, 
     CommentCreateSerializer,
+    LikeSerializer,
+    LikeCreateSerializer,
 )
 from .paginations import ProductLargePagination
+from rest_framework.response import Response
 
 class ProductListView(
     mixins.ListModelMixin, 
@@ -28,7 +35,6 @@ class ProductListView(
         return products.order_by('id')
 
     def get(self, request, *args, **kwargs):
-        # print(request.user)
         return self.list(request, args, kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -80,4 +86,34 @@ class CommentCreateView(
         return Comment.objects.all().order_by('id')
 
     def post(self, request, *args, **kwargs):
+        return self.create(request, args, kwargs)
+
+class LikeListView(
+    mixins.ListModelMixin, 
+    generics.GenericAPIView,
+):
+    serializer_class = LikeSerializer
+
+    def get_queryset(self):
+        return Like.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, args, kwargs)
+
+class LikeCreateView(
+    mixins.CreateModelMixin, 
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView,
+):
+    serializer_class = LikeCreateSerializer
+
+    def get_queryset(self):
+        return Like.objects.all().order_by('id')
+
+    def post(self, request, *args, **kwargs):
+        product_id = request.data.get('product')
+        if Like.objects.filter(member=request.user, product_id=product_id).exists():
+            Like.objects.filter(member=request.user, product_id=product_id).delete()
+            return Response(status.HTTP_204_NO_CONTENT)
+
         return self.create(request, args, kwargs)
