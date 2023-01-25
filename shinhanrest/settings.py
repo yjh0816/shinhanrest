@@ -52,11 +52,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'debug_toolbar',
     'product.apps.ProductConfig',
     'member.apps.MemberConfig',
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -144,9 +146,9 @@ SILENCED_SYSTEM_CHECKS = ['urls.W002']
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
+    # "DEFAULT_AUTHENTICATION_CLASSES": (
+    #     "rest_framework_simplejwt.authentication.JWTAuthentication",
+    # )
 }
 
 import datetime
@@ -159,3 +161,7 @@ AUTH_USER_MODEL = "member.Member"
 AUTHENTICATION_BACKENDS = {
     "member.auth.MemberAuth"
 }
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

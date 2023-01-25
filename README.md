@@ -6,6 +6,7 @@ This is djangoframework practice that use Django REST Framework with ShinhanInve
 $ pip install django
 $ pip install djangorestframework
 $ pip install djangorestframework-simplejwt
+$ pip install django-debug-toolbar
 ```
 ## How to start
 ```shell
