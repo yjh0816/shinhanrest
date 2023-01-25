@@ -7,6 +7,7 @@ $ pip install django
 $ pip install djangorestframework
 $ pip install djangorestframework-simplejwt
 $ pip install django-debug-toolbar
+$ pip install django-cors-headers
 ```
 ## How to start
 ```shell
