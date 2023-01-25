@@ -13,6 +13,7 @@ from .serializers import (
 )
 from .paginations import ProductLargePagination
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 class ProductListView(
     mixins.ListModelMixin, 
@@ -21,6 +22,7 @@ class ProductListView(
 ):
     serializer_class = ProductSerializer
     pagination_class = ProductLargePagination
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         products = Product.objects.all()
