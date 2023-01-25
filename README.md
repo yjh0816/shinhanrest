@@ -19,6 +19,8 @@ $ python manage.py runserver
 - Delete product
 - Add product
 - Update product
+- Add member
+- Use debug-toolbarl in local
 
 ## References
 1. [FastCampus Lecture Github](https://github.com/Alghost/2023-shinhan)
