@@ -25,7 +25,7 @@ class ProductListView(
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        products = Product.objects.all()
+        products = Product.objects.all().prefetch_related('comment_set')
 
         if 'name' in self.request.query_params:
             name = self.request.query_params['name']
