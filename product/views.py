@@ -72,7 +72,9 @@ class CommentListView(
     def get_queryset(self):
         product_id = self.kwargs.get('product_id')
         if product_id:
-            return Comment.objects.filter(product_id=product_id).order_by('-id')
+            return Comment.objects.filter(product_id=product_id) \
+                .select_related('member', 'product') \
+                .order_by('-id')
         return Comment.objects.none()
 
     def get(self, request, *args, **kwargs):
